@@ -20,6 +20,7 @@ GRID_SIZE = 12
 WINDOW_MARGIN_BOTTOM = 150
 MAX_ATTEMPTS = 50
 
+
 # Класс для самой игры
 class Game:
     # Основные переменные
@@ -95,7 +96,7 @@ class Game:
         self.music_volume = max(0.0, self.music_volume - 0.1)
         pygame.mixer.music.set_volume(self.music_volume)
 
-    # Генерация лабиринта 
+    # Генерация лабиринта
     def generate_maze(self):
         attempts = 0
         obstacles = min(20 + self.level * 2, self.max_obstacles)
@@ -135,7 +136,6 @@ class Game:
         self.player.reset()
         self.path = []
 
-
     # Начать сначала
     def restart(self):
         self.level = 1
@@ -150,6 +150,7 @@ class Game:
         elif self.selected_algorithm == "Dijkstra":
             return dijkstra(maze, start, end)
         return []
+
 
 # Шаги пользователя
 class Player:
@@ -167,9 +168,11 @@ class Player:
             return True
         return False
 
+
 # Алгоритм A* (данный код написан при помощи чата GPT, так как есть неизвестный алгоритм A*)
 def heuristic(a, b):
     return abs(a[0] - b[0]) + abs(a[1] - b[1])
+
 
 def a_star(maze, start, goal):
     open_set = [(heuristic(start, goal), 0, start)]
@@ -182,7 +185,7 @@ def a_star(maze, start, goal):
             break
 
         x, y = current
-        for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
             neighbor = (nx, ny)
             if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze) and maze[ny][nx] == 0:
@@ -195,6 +198,7 @@ def a_star(maze, start, goal):
 
     return reconstruct_path(came_from, goal)
 
+
 # BFS (данный код написан с небольшой помощью чата GPT, так как я не знала, как известный мне алгоритм подкорректировать под нужный проект)
 def bfs(maze, start, goal):
     queue = deque([start])
@@ -206,7 +210,7 @@ def bfs(maze, start, goal):
             break
 
         x, y = current
-        for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
             neighbor = (nx, ny)
             if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze) and maze[ny][nx] == 0 and neighbor not in came_from:
@@ -214,6 +218,7 @@ def bfs(maze, start, goal):
                 queue.append(neighbor)
 
     return reconstruct_path(came_from, goal)
+
 
 # Дейкстра (данный код написан с небольшой помощью чата GPT, так как я не знала, как известный мне алгоритм подкорректировать под нужный проект)
 def dijkstra(maze, start, goal):
@@ -227,7 +232,7 @@ def dijkstra(maze, start, goal):
             break
 
         x, y = current
-        for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
             nx, ny = x + dx, y + dy
             neighbor = (nx, ny)
             if 0 <= nx < len(maze[0]) and 0 <= ny < len(maze) and maze[ny][nx] == 0:
@@ -239,6 +244,7 @@ def dijkstra(maze, start, goal):
 
     return reconstruct_path(came_from, goal)
 
+
 # Генерация пути
 def reconstruct_path(came_from, goal):
     if goal not in came_from:
@@ -249,6 +255,7 @@ def reconstruct_path(came_from, goal):
         goal = came_from[goal]
     path.reverse()
     return path
+
 
 # Отрисовка всей игры
 def draw(screen, game):
@@ -299,6 +306,7 @@ def draw(screen, game):
     if game.lost:
         msg = pygame.font.SysFont(None, 48).render("Вы проиграли!", True, (200, 0, 0))
         screen.blit(msg, ((game.window_width - msg.get_width()) // 2, (game.window_height - msg.get_height()) // 2))
+
 
 def main():
     pygame.init()
@@ -370,6 +378,7 @@ def main():
         draw(screen, game)
         pygame.display.flip()
         clock.tick(30)
+
 
 if __name__ == "__main__":
     main()
