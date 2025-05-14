@@ -1,5 +1,4 @@
 import pygame
-import sys
 import random
 import heapq
 from collections import deque
@@ -318,7 +317,8 @@ def main():
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                sys.exit()
+                pygame.quit()
+                exit()
 
             if event.type == pygame.KEYDOWN and not (game.won or game.lost):
                 moved = False
